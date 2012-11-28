@@ -3,7 +3,7 @@
 #include "timer.h"
 #include "led.h"
 #include "pwm.h"
-#include "lcd.h"
+//#include "lcd.h"
 
 void init(void)
 {
@@ -16,9 +16,9 @@ void init(void)
 int main(void)
 {
 	init();
+	sei(); //NICHT INTERRUPTS EINSCHALTEN VERGESSEN!!!!!!!!!!!!!!!!!!!!
 	uint8_t contrast = 0;
 	uint32_t wartezeit = 1000;
-	sei();
 	while(1)
 	{
 		set_ocr(contrast);

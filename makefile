@@ -71,17 +71,19 @@ notarget:
 #program.elf: $(SRCDIR)/program.o
 #prg.elf: $(SRCDIR)/p1.o $(SRCDIR)/p2.o
 
-programm.o: programm.c
+#programm.o: programm.c
+programm02.o: programm02.c
 timer.o: timer.c
 led.o: led.c
 pwm.o: pwm.c
-#lcd.o: lcd.c
+lcd.o: lcd.c
 
 	
 #programm.elf: timer.o pwm.o led.o programm.o lcd.o
-	
-programm.elf: timer.o pwm.o led.o programm.o
-programm.hex: programm.elf
+#programm.hex: programm.elf
+
+programm02.elf: timer.o pwm.o led.o programm02.o lcd.o
+programm02.hex: programm02.elf
 
 #
 # ENDE DER EIGENEN TARGETS
