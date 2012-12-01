@@ -22,7 +22,7 @@ int main(void)
 	sei(); //INTERRUPTS EINSCHALTEN NICHT VERGESSEN!!!!!!!!!!!!!!!!!!!!
 	//uint8_t contrast = 0;
 	//uint32_t wartezeit = 1000;
-	uint16_t wartezeit = 1000;
+	/*uint16_t wartezeit = 1000;
 	char c1 = 0x48;
 	char c2 = 0x41;
 	char c3 = 0x4C;
@@ -36,6 +36,11 @@ int main(void)
 	timer_wait(1000);
 	//char wort01 = 'b';
 	printf("bläöübb");	
+	*/
+	
+	printf("Mikrocontroller");
+	lcd_locate(1,0);
+	printf("Praktikum");
 	
 	while(1)
 	{
