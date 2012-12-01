@@ -193,7 +193,32 @@ int lcd_put(char c, FILE *p)
 
 void lcd_locate(uint8_t row, uint8_t col)
 {
+	/* 
+	argument ranges:
+		row from 0 to 1
+		col from 0 to 15
+	*/
+	char ddram_high = 0x08; // DB7 always 1
+	char ddram_low = 0x00;
+	char ddram;
 	
+	// Set DDRAM Address
+	// Set row
+	if (row == 0)
+	{
+		char ddram_high = 0x08;
+	}else if (row == 1)
+	{
+		char ddram_high = 0x0C;
+	}
+	// Set column
+	char ddram_low = col+1;
+	
+	// Merge nibbles
+	char ddram = ((ddram_high&0x0F)<<4) | (ddram_low&0x0F);
+	
+	// Write cmd
+	lcd_write_cmd(ddram);
 }
 
 
