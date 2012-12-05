@@ -72,7 +72,61 @@ void lcd_init(void)
 	timer_wait(wait_short);
 	return;
 }
-
+char lcd_init_read(uint8_t option)
+{
+//option = 0 fuer command lesen, option = 1 fuer data lesen
+	/*
+	Funktion, um Daten vom LCD zu erhalten
+	dazu Konfig:
+	PB2: HI, -> Register Select: Data Register
+	PB1: LO, -> Read/Write auf Write
+	PA0-3 (Mikrocontroller): Eingang
+	*/
+	char worteins = 0x00;
+	char wortzwei = 0x00;
+	char wortges = 0x00;
+	//momentaner zustand an PortB: aus Schutz for ungewollten //Ueberschreibungen
+	uint8_t portb_alt = PINB; 
+	//Konfiguration, ob data oder command lesen
+	if (option == 0) {
+		PORTB = (portb_alt & 0xFB);//PB2 ist low => command
+	} else {
+		PORTB = (portb_alt & 0xFF);//PB2 ist high => data
+	}
+	//PA0-3 auf Eingang
+	for (int i = 0; i<=3; i++)
+	{
+		*lcd_reg[i] &= ~(1<<lcd_pin[i]);
+		*lcd_port[i] |= (1<<lcd_pin[i]);	
+	}	
+	// Read/Write
+	DDRB &= ~(1<<PB1); // Eingang
+	PORTB |= (1<<PB1); //Write
+	//################################
+	//High Nibble 
+	//################################
+	// Enable auf high, 8ms
+	PORTB |= (1<<PB0);
+	timer_wait(wait_short);
+	worteins = PINA;
+	// Enable auf low, 8ms
+	PORTB &= ~(1<<PB0);	
+	timer_wait(wait_short);
+	//################################
+	// Low Nibble
+	//################################
+	// Enable auf high, 8ms
+	PORTB |= (1<<PB0);
+	timer_wait(wait_short);
+	wortzwei = PINA;
+	// Enable auf low, 8ms
+	PORTB &= ~(1<<PB0);	
+	timer_wait(wait_short);	
+	// mergen der nibbles bzw. chars
+	wortges = (((worteins & 0x0F)<<4) | (wortzwei & 0x0F));
+	zustand == 0;
+	return wortges;
+}
 void lcd_init_write(void)
 {
 	/*
@@ -118,6 +172,7 @@ void lcd_write_data(char data)
 	// Set Enable to HIGH for 8ms	
 	PORTB |= (1<<PB0);
 	timer_wait(wait_short);
+	// Set Enable to LOW for 8ms
 	PORTB &= ~(1<<PB0);	
 	timer_wait(wait_short);
 
@@ -190,7 +245,7 @@ int lcd_put(char c, FILE *p)
 	}
 	return 0;
 }
-
+//Luen
 void lcd_locate(uint8_t row, uint8_t col)
 {
 	/* 
@@ -213,6 +268,37 @@ void lcd_locate(uint8_t row, uint8_t col)
 	}
 	// Set column
 	char ddram_low = col+1;
+	
+	// Merge nibbles
+	char ddram = ((ddram_high&0x0F)<<4) | (ddram_low&0x0F);
+	
+	// Write cmd
+	lcd_write_cmd(ddram);
+}
+
+//Philipp
+void lcd_locate(uint8_t row, uint8_t col)
+{
+	/* 
+	argument ranges:
+		row from 0 to 1
+		col from 0 to 15
+	*/
+	char ddram_high = 0x00; // DB7 always 1
+	char ddram_low = 0x00;
+	char ddram;
+	
+	// Set DDRAM Address
+	// Set row
+	if (row == 0)
+	{
+		char ddram_high = 0x00;// ergibt 0x
+	}else if (row == 1)
+	{
+		char ddram_high = 0x40;// ergibt 4x
+	}
+	// Set column
+	char ddram_low = col;
 	
 	// Merge nibbles
 	char ddram = ((ddram_high&0x0F)<<4) | (ddram_low&0x0F);
