@@ -11,6 +11,6 @@ uint8_t paritaetsberechnung(uint8_t wort, uint8_t paritybit);
 
 int keyb_get(FILE *p);
 
-uint8_t check_word();
+uint8_t check_word(void);
 
 #endif
