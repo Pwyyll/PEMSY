@@ -71,19 +71,17 @@ notarget:
 #program.elf: $(SRCDIR)/program.o
 #prg.elf: $(SRCDIR)/p1.o $(SRCDIR)/p2.o
 
-#programm.o: programm.c
-programm02.o: programm02.c
-timer.o: timer.c
+lcd.o: lcd.c
 led.o: led.c
 pwm.o: pwm.c
-lcd.o: lcd.c
+timer.o: timer.c
+tastatur.o: tastatur.c
+programm03.o: programm03.c
 
-	
-#programm.elf: timer.o pwm.o led.o programm.o lcd.o
-#programm.hex: programm.elf
 
-programm02.elf: timer.o pwm.o led.o programm02.o lcd.o
-programm02.hex: programm02.elf
+programm03.elf: lcd.o led.o pwm.o timer.o tastatur.o programm03.o
+programm03.hex: programm03.elf
+
 
 #
 # ENDE DER EIGENEN TARGETS
@@ -96,8 +94,8 @@ clean:
 	rm -f *.bin
 	rm -f *.elf
 	rm -f *.map
-	rm -f $(SRCDIR)/*.o
-	rm -f $(SRCDIR)/*.s
+	rm -f *.o
+	rm -f *.s
 
 # Rule, um aus einer .c Datei eine .o Datei zu erzeugen
 %.o: %.c
