@@ -6,7 +6,6 @@
 #include "pwm.h"
 #include "lcd.h"
 #include "tastatur.h"
-#include "scancodes.h"
 
 
 
@@ -22,7 +21,7 @@ void init(void)
 	return;
 }
 
-void interrupt_init()
+void interrupt_init(void)
 {
 	cli();
 //PD3/INT1 als Interrupt fuer Tastatur
@@ -62,4 +61,5 @@ lcd_locate(0,0);
 	}
 
 }
+
 
