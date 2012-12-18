@@ -6,8 +6,7 @@
 #include "pwm.h"
 #include "lcd.h"
 #include "tastatur.h"
-
-
+#include "usart.h"
 
 
 
@@ -18,6 +17,7 @@ void init(void)
 	pwm_init();
 	lcd_init();
 	tastatur_init();
+	usart_init();
 	return;
 }
 
@@ -55,9 +55,11 @@ init();
 interrupt_init();
 sei(); //INTERRUPTS EINSCHALTEN NICHT VERGESSEN!!!!!!!!!!!!!!!!!!!!
 lcd_locate(0,0);
+char empfangswort = 0;
 	while(1)
 	{
 		int wert = keyb_get(NULL);
+		empfangswort = usart_receive();
 	}
 
 }
