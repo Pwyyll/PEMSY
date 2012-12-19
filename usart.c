@@ -2,7 +2,7 @@
 
 volatile uint8_t rx_enabled = 0; //flag: 0 fuer empfangen, 1 fuer senden (vgl. uint8_t zustand in lcd.c)
 //Initialisierung des USART (allgemein)
-void init()
+void usart_init()
 {
 //Interrupts enablen: RX, TX, UDR
 UCSRB = (1<<RXCIE) | (1<<TXCIE) (1<<UDRIE);
@@ -55,4 +55,24 @@ while ((UCSRA & UDRE) != 1)
 //warteschleife, bis Flag gesetzt wurde
 }
 UDR = datenwort;
+}
+
+ISR(SIG_USART_RECV)
+{
+	empfang = 1;
+}
+
+char usart_receive() 
+{
+	if (empfang ==1)
+	{
+		char tempwort = 0;
+		if (tempwort != '\r'
+		{
+			return tempwort;
+		} else if (tempwort == '\r')
+			return ('\n');
+		}
+	}
+	return;
 }

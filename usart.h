@@ -9,4 +9,8 @@ void init();
 
 void send_data(uint8_t datenwort);
 
+ISR(SIG_USART_RECV);
+
+char usart_receive();
+
 #endif
