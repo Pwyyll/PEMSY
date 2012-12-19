@@ -26,7 +26,10 @@ CFLAGS 		:= -g -Wall -Wstrict-prototypes -mmcu=$(MCU) -I. -fexec-charset=ISO-885
 LDFLAGS          = -g -Wl,-Map=$(@:.elf=.map),--cref
 OBJCOPY_OPT 	:= -R .eeprom
 JTAG_OPT	:= -B 500KHz -j /dev/ttyS0
-AVRDUDE_OPT	:= -p m32 -P /dev/ttyS0 -c ponyser
+# PEMSY
+#AVRDUDE_OPT	:= -p m32 -P /dev/ttyS0 -c ponyser
+# AVRDRAGON
+AVRDUDE_OPT    := -p m32 -P -c dragon_jtag
 
 # Debug-Optionen
 DEB_HOST	:= localhost
