@@ -28,6 +28,10 @@ int lcd_put(char c, FILE *p);
 
 void lcd_locate(uint8_t row, uint8_t col);
 
+void lcd_clear(void);
+
 char lcd_init_read(uint8_t option);
+
+void lcd_get_cursor(uint8_t row, uint8_t col);
 
 #endif
