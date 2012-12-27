@@ -28,8 +28,10 @@ OBJCOPY_OPT 	:= -R .eeprom
 JTAG_OPT	:= -B 500KHz -j /dev/ttyS0
 # PEMSY
 #AVRDUDE_OPT	:= -p m32 -P /dev/ttyS0 -c ponyser
-# AVRDRAGON
-AVRDUDE_OPT    := -p m32 -P -c dragon_jtag
+# AVRDRAGON ISP
+AVRDUDE_OPT    := -p m32 -P usb -c dragon_isp
+# AVRDRAGON JTAG does not work
+#AVRDUDE_OPT    := -p m32 -P usb -c dragon_jtag
 
 # Debug-Optionen
 DEB_HOST	:= localhost
