@@ -14,7 +14,7 @@ void usart_init(uint16_t baud)
 	PORTD |= (1<<PD0);
 
 
-	UBRRH &= ~(1<<URSEL);	//URSEL = 0: zum Beschreiben von UBRR
+	UCSRB &= ~(1<<URSEL);	//URSEL = 0: zum Beschreiben von UBRR
 	UBRRH = (0x00>>8);
 	UBRRL = 103;	//Baudrate von 9600 bei f_Clock = 4MHz, U2X = 0 (kein double-speed)
 	UCSRB = (1<<RXEN) | (1<<TXEN);
